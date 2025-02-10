@@ -1,12 +1,9 @@
-// src/app/api/send-email/route.js
 import { NextResponse } from "next/server";
 const nodemailer = require("nodemailer");
 
 export async function POST(request) {
   try {
     const { name, email, message } = await request.json();
-
-    console.log("Received data:", { name, email, message }); // Log received data
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -27,11 +24,8 @@ export async function POST(request) {
              <p><strong>Message:</strong> ${message}</p>`,
     };
 
-    console.log("Sending email with options:", mailOptions); // Log mail options
 
-    const info = await transporter.sendMail(mailOptions); // Add await here
-
-    console.log("Email sent:", info.messageId, info); // Log email info
+    const info = await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ message: "Email sent successfully" }, { status: 200 });
   } catch (error) {
